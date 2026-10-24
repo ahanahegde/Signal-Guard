@@ -370,12 +370,12 @@ class TestSignalGuardReliabilityEngine(unittest.TestCase):
     # 12. Signal with different known frequencies in separate windows
     # ------------------------------------------------------------
     def test_12_frequency_shift_across_windows(self):
-        # Linearly ramping physiological frequency from 55 to 125 BPM over 30s
+        # Linearly ramping physiological frequency from 45 to 155 BPM over 30s
         duration = 30.0
         n = int(round(duration * self.fs))
         t = np.arange(n) / self.fs
-        f_start = 55.0 / 60.0
-        f_end = 125.0 / 60.0
+        f_start = 45.0 / 60.0
+        f_end = 155.0 / 60.0
         phase = 2 * np.pi * (f_start * t + 0.5 * (f_end - f_start) * (t**2) / duration)
         pulse = 0.015 * np.sin(phase)
         rgb = np.column_stack([140.0 * (1 - 0.2 * pulse), 115.0 * (1 + pulse), 95.0 * (1 - 0.2 * pulse)])
@@ -386,7 +386,7 @@ class TestSignalGuardReliabilityEngine(unittest.TestCase):
         # Sliding window analysis must detect high BPM spread (MAD)
         f_mad = report["categories"]["C_temporal_stability"]["forehead_bpm_mad"]
         self.assertIsNotNone(f_mad)
-        self.assertGreater(f_mad, 12.0, f"Expected high MAD from frequency shift, got {f_mad}")
+        self.assertGreater(f_mad, 18.0, f"Expected high MAD from frequency shift, got {f_mad}")
         self.assertFalse(report["checks"]["forehead_bpm_mad"]["passed"])
         self.assertEqual(report["verdict"], "INCONCLUSIVE")
 
