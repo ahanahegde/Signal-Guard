@@ -51,6 +51,7 @@ ARTIFACTS = (
     "pos_signals.csv",
     "pos_signals.png",
     "window_analysis.csv",
+    "reliability_report.json",
     "temporal_consistency.csv",
     "temporal_consistency.json",
     "video_forensics.csv",
@@ -210,6 +211,12 @@ def run_script(name: str, video: Path | None = None) -> tuple[int, str]:
         command = [
             sys.executable, "-u", str(script_path),
             str(video.resolve()),
+        ]
+        input_text = None
+    elif name == "eligibility_gate.py":
+        command = [
+            sys.executable, "-u", str(script_path),
+            "--out-json", "reliability_report.json",
         ]
         input_text = None
     else:
