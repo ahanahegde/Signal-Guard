@@ -1,0 +1,21 @@
+{
+  "video": "C:\\Users\\karan\\SignalGaurd\\stress_outputs\\brightness_down.mp4",
+  "frames": 557,
+  "fps_metadata": 16.64,
+  "mean_features": {
+    "high_frequency_energy": 0.009836085999803661,
+    "blockiness_ratio": 1.54124458056592,
+    "resampling_periodicity": 0.5917073750945353,
+    "laplacian_variance": 51.48167370813948,
+    "frame_difference": 2.4297912275648232,
+    "face_boundary_edge_density": 0.013676459949499797
+  },
+  "forensic_deviation_index": 0.2041170255224844,
+  "interpretation": "heuristic forensic deviation index only; not P(fake)",
+  "limitations": [
+    "Compression and resizing can change these features.",
+    "Natural content varies widely; anomaly does not imply manipulation.",
+    "Modern generators may not exhibit these cues.",
+    "Requires validation on labelled datasets and unseen manipulation methods."
+  ]
+}

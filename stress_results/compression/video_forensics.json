@@ -1,0 +1,21 @@
+{
+  "video": "C:\\Users\\karan\\SignalGaurd\\stress_outputs\\compression.mp4",
+  "frames": 557,
+  "fps_metadata": 16.64,
+  "mean_features": {
+    "high_frequency_energy": 0.0077102109579068445,
+    "blockiness_ratio": 1.6082407413736066,
+    "resampling_periodicity": 0.5950940485970122,
+    "laplacian_variance": 30.40643260008375,
+    "frame_difference": 2.634518566787195,
+    "face_boundary_edge_density": 0.014492640567620634
+  },
+  "forensic_deviation_index": 0.2042536740696806,
+  "interpretation": "heuristic forensic deviation index only; not P(fake)",
+  "limitations": [
+    "Compression and resizing can change these features.",
+    "Natural content varies widely; anomaly does not imply manipulation.",
+    "Modern generators may not exhibit these cues.",
+    "Requires validation on labelled datasets and unseen manipulation methods."
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "variant": "original",
+  "video_path": "C:\\Users\\karan\\Downloads\\WIN_20261024_16_44_27_Pro.mp4",
+  "status": "COMPLETED",
+  "gate_verdict": "INCONCLUSIVE",
+  "steps": {
+    "signal_extractor.py": {
+      "exit_code": 0,
+      "success": true
+    },
+    "pos_extractor.py": {
+      "exit_code": 0,
+      "success": true
+    },
+    "eligibility_gate.py": {
+      "exit_code": 0,
+      "success": true
+    },
+    "temporal_consistency.py": {
+      "exit_code": 0,
+      "success": true
+    },
+    "video_forensics.py": {
+      "exit_code": 0,
+      "success": true
+    }
+  },
+  "started_at": "2026-10-24T23:25:27",
+  "archived_files": [
+    "rgb_signals.csv",
+    "rgb_signals.png",
+    "roi_preview.jpg",
+    "pos_signals.csv",
+    "pos_signals.png",
+    "window_analysis.csv",
+    "temporal_consistency.csv",
+    "temporal_consistency.json",
+    "video_forensics.csv",
+    "video_forensics.json"
+  ],
+  "finished_at": "2026-10-24T23:28:33"
+}

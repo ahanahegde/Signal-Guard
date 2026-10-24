@@ -1,0 +1,6 @@
+video,path,pipeline_status
+original,C:\Users\karan\SignalGaurd\original.mp4,MISSING
+compression,C:\Users\karan\SignalGaurd\stress_outputs\compression.mp4,COMPLETED
+brightness_down,C:\Users\karan\SignalGaurd\stress_outputs\brightness_down.mp4,COMPLETED
+brightness_up,C:\Users\karan\SignalGaurd\stress_outputs\brightness_up.mp4,COMPLETED
+temporal_drop,C:\Users\karan\SignalGaurd\stress_outputs\temporal_drop.mp4,COMPLETED

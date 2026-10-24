@@ -1,0 +1,14 @@
+{
+  "video": "C:\\Users\\karan\\SignalGaurd\\stress_outputs\\brightness_up.mp4",
+  "frames": 557,
+  "fps_metadata": 16.64,
+  "face_detection_rate": 1.0,
+  "geometry_jump_rate": 0.019748653500897665,
+  "temporal_anomaly_index": 0.19520874441196145,
+  "interpretation": "heuristic anomaly index only; not a deepfake probability",
+  "limitations": [
+    "Normal motion, blur, occlusion and compression can trigger anomalies.",
+    "Modern generators may maintain temporal consistency.",
+    "Requires validation on labelled real and manipulated videos."
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "video": "C:\\Users\\karan\\SignalGaurd\\stress_outputs\\temporal_drop.mp4",
+  "frames": 557,
+  "fps_metadata": 16.64,
+  "mean_features": {
+    "high_frequency_energy": 0.007967366039167487,
+    "blockiness_ratio": 1.4662272979369926,
+    "resampling_periodicity": 0.5913783740151934,
+    "laplacian_variance": 77.67718357105441,
+    "frame_difference": 2.60616192202488,
+    "face_boundary_edge_density": 0.022375945825663487
+  },
+  "forensic_deviation_index": 0.21135642254233508,
+  "interpretation": "heuristic forensic deviation index only; not P(fake)",
+  "limitations": [
+    "Compression and resizing can change these features.",
+    "Natural content varies widely; anomaly does not imply manipulation.",
+    "Modern generators may not exhibit these cues.",
+    "Requires validation on labelled datasets and unseen manipulation methods."
+  ]
+}

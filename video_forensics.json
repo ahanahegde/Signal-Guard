@@ -1,0 +1,21 @@
+{
+  "video": "C:\\Users\\karan\\Downloads\\WIN_20261024_16_44_27_Pro.mp4",
+  "frames": 557,
+  "fps_metadata": 16.640012109069254,
+  "mean_features": {
+    "high_frequency_energy": 0.007804837059165087,
+    "blockiness_ratio": 1.041430935076366,
+    "resampling_periodicity": 0.5875152153911025,
+    "laplacian_variance": 93.09878676668946,
+    "frame_difference": 3.19180867610599,
+    "face_boundary_edge_density": 0.02522681964396305
+  },
+  "forensic_deviation_index": 0.18458213082198344,
+  "interpretation": "heuristic forensic deviation index only; not P(fake)",
+  "limitations": [
+    "Compression and resizing can change these features.",
+    "Natural content varies widely; anomaly does not imply manipulation.",
+    "Modern generators may not exhibit these cues.",
+    "Requires validation on labelled datasets and unseen manipulation methods."
+  ]
+}

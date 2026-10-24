@@ -1,0 +1,42 @@
+{
+  "model_type": "LogisticRegression_PlattCalibrated",
+  "feature_names": [
+    "high_freq_ratio",
+    "azimuthal_spectral_variance",
+    "laplacian_variance",
+    "edge_gradient_density",
+    "inter_frame_difference",
+    "color_channel_discrepancy",
+    "spectral_falloff_slope",
+    "temporal_gradient_variance"
+  ],
+  "decision_threshold": 0.5,
+  "c_regularization": 1.0,
+  "saved_at": "2026-10-24T23:56:26.425229",
+  "training_metadata": {
+    "trained_at": "2026-10-24T23:56:26.420265",
+    "n_samples": 32,
+    "n_skipped": 0,
+    "classes": [
+      0,
+      1
+    ],
+    "class_counts": {
+      "0": 16,
+      "1": 16
+    },
+    "c_regularization": 1.0,
+    "decision_threshold": 0.5,
+    "feature_names": [
+      "high_freq_ratio",
+      "azimuthal_spectral_variance",
+      "laplacian_variance",
+      "edge_gradient_density",
+      "inter_frame_difference",
+      "color_channel_discrepancy",
+      "spectral_falloff_slope",
+      "temporal_gradient_variance"
+    ],
+    "is_calibrated": true
+  }
+}
