@@ -6,7 +6,7 @@ and Kaggle/Meta DFDC Winning Solution (EfficientNet-B4: Seferbekov et al., 2020)
 
 Workflow:
   1. Reads video frames and samples evenly across duration.
-  2. Detects and extracts normalized face crops via MediaPipe.
+  2. Detects and extracts normalized face crops via MediaPipe FaceLandmarker.
   3. Preprocesses crops (299x299, ImageNet standardization).
   4. Computes per-frame fake probabilities using deep CNN features.
   5. Aggregates frame probabilities into a robust video-level verdict.
@@ -37,6 +37,9 @@ except ImportError:
     MEDIAPIPE_AVAILABLE = False
 
 
+MODEL_PATH = Path(__file__).resolve().parent / "face_landmarker.task"
+
+
 # ============================================================
 # 1. MODEL ARCHITECTURE (FaceForensics++ Xception / EfficientNet)
 # ============================================================
@@ -54,8 +57,6 @@ def build_deepfake_backbone(model_name: str = "efficientnet", num_classes: int =
 
     try:
         import timm
-        # 'legacy_xception' is the FaceForensics++ architecture.
-        # 'tf_efficientnet_b4' is the Kaggle DFDC winning architecture.
         backbone_id = "legacy_xception" if "xception" in model_name.lower() else "tf_efficientnet_b4"
         print(f"[*] Initializing '{backbone_id}' via timm...")
         model = timm.create_model(backbone_id, pretrained=True, num_classes=num_classes)
@@ -74,48 +75,60 @@ def build_deepfake_backbone(model_name: str = "efficientnet", num_classes: int =
 # ============================================================
 
 class FacePreprocessor:
-    """Extracts stabilized, margin-padded face crops using MediaPipe."""
+    """Extracts stabilized, margin-padded face crops using MediaPipe FaceLandmarker."""
 
     def __init__(self, target_size: int = 299, margin: float = 0.25):
         if not MEDIAPIPE_AVAILABLE:
-            raise RuntimeError("MediaPipe is required for face detection: pip install mediapipe")
+            raise RuntimeError("MediaPipe is required: pip install mediapipe")
+        if not MODEL_PATH.exists():
+            raise FileNotFoundError(f"Required model asset not found: {MODEL_PATH}")
 
         self.target_size = target_size
         self.margin = margin
-        self.mp_face = mp.solutions.face_detection.FaceDetection(
-            model_selection=1, min_detection_confidence=0.6
-        )
 
-        # Standard ImageNet normalization parameters
+        BaseOptions = mp.tasks.BaseOptions
+        Vision = mp.tasks.vision
+        options = Vision.FaceLandmarkerOptions(
+            base_options=BaseOptions(model_asset_path=str(MODEL_PATH.resolve())),
+            running_mode=Vision.RunningMode.IMAGE,
+            num_faces=1,
+            min_face_detection_confidence=0.5,
+        )
+        self.landmarker = Vision.FaceLandmarker.create_from_options(options)
+
         self.mean = np.array([0.485, 0.456, 0.406], dtype=np.float32).reshape(1, 1, 3)
         self.std = np.array([0.229, 0.224, 0.225], dtype=np.float32).reshape(1, 1, 3)
 
     def extract_face(self, frame_bgr: np.ndarray) -> Optional[np.ndarray]:
         h, w = frame_bgr.shape[:2]
         frame_rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
-        results = self.mp_face.process(frame_rgb)
+        mp_img = mp.Image(
+            image_format=mp.ImageFormat.SRGB,
+            data=np.ascontiguousarray(frame_rgb)
+        )
+        res = self.landmarker.detect(mp_img)
 
-        if not results.detections:
+        if not res.face_landmarks:
             return None
 
-        # Select detection with highest confidence
-        best_detection = max(results.detections, key=lambda d: d.score[0])
-        bbox = best_detection.location_data.relative_bounding_box
+        landmarks = res.face_landmarks[0]
+        coords = np.asarray([[lm.x * w, lm.y * h] for lm in landmarks], dtype=float)
 
-        # Convert relative to pixel coordinates
-        x_min = int(bbox.xmin * w)
-        y_min = int(bbox.ymin * h)
-        box_w = int(bbox.width * w)
-        box_h = int(bbox.height * h)
+        x_min = float(np.clip(coords[:, 0].min(), 0, w - 1))
+        x_max = float(np.clip(coords[:, 0].max(), 0, w - 1))
+        y_min = float(np.clip(coords[:, 1].min(), 0, h - 1))
+        y_max = float(np.clip(coords[:, 1].max(), 0, h - 1))
 
-        # Add margin
+        box_w = max(1.0, x_max - x_min)
+        box_h = max(1.0, y_max - y_min)
+
         dx = int(box_w * self.margin)
         dy = int(box_h * self.margin)
 
-        x1 = max(0, x_min - dx)
-        y1 = max(0, y_min - dy)
-        x2 = min(w, x_min + box_w + dx)
-        y2 = min(h, y_min + box_h + dy)
+        x1 = max(0, int(x_min - dx))
+        y1 = max(0, int(y_min - dy))
+        x2 = min(w, int(x_max + dx))
+        y2 = min(h, int(y_max + dy))
 
         if x2 - x1 < 20 or y2 - y1 < 20:
             return None
@@ -125,13 +138,12 @@ class FacePreprocessor:
             crop, (self.target_size, self.target_size), interpolation=cv2.INTER_AREA
         )
 
-        # Normalize: [0, 255] -> standard normal distribution
         norm_crop = (crop_resized.astype(np.float32) / 255.0 - self.mean) / self.std
-        # Transpose HWC -> CHW for PyTorch tensor
         return np.transpose(norm_crop, (2, 0, 1))
 
     def close(self):
-        self.mp_face.close()
+        if hasattr(self, "landmarker") and self.landmarker:
+            self.landmarker.close()
 
 
 # ============================================================
@@ -159,7 +171,6 @@ def classify_video(
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
 
-    # Select frame indices evenly spaced across the entire video
     sample_indices = np.linspace(
         0, total_frames - 1, min(max_frames, total_frames), dtype=int
     )
@@ -185,7 +196,6 @@ def classify_video(
             logits = model(tensor)
             probs = F.softmax(logits, dim=1).cpu().numpy()[0]
 
-            # Index 1 = P(Fake), Index 0 = P(Real)
             p_fake = (
                 float(probs[1])
                 if probs.shape[0] > 1
@@ -203,10 +213,6 @@ def classify_video(
             "frames_analyzed": 0,
         }
 
-    # Temporal aggregation:
-    # 1. Mean probability across all sampled frames
-    # 2. Median probability (robust against transient detector noise)
-    # 3. Top-10% worst frames (catches sparse deepfakes where only brief intervals are altered)
     mean_prob = float(np.mean(frame_probs))
     median_prob = float(np.median(frame_probs))
     k_frames = max(1, len(frame_probs) // 10)
@@ -245,7 +251,14 @@ def main():
     parser = argparse.ArgumentParser(
         description="Baseline Deepfake Video Classifier (FaceForensics++/DFDC)"
     )
-    parser.add_argument("video_path", type=str, help="Path to input video file (.mp4)")
+    parser.add_argument("video_path", type=str, nargs="?", default=None, help="Path to input video file (.mp4)")
+    parser.add_argument(
+        "--predict",
+        type=str,
+        default=None,
+        dest="predict_path",
+        help="Path to input video file (.mp4) - alias for video_path",
+    )
     parser.add_argument(
         "--backbone",
         type=str,
@@ -272,6 +285,10 @@ def main():
     )
     args = parser.parse_args()
 
+    target_video = args.predict_path or args.video_path
+    if not target_video:
+        parser.error("Please provide a video path: python deepfake_video_detector.py <video_path> or --predict <video_path>")
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"[*] Running on device: {device}")
 
@@ -280,9 +297,9 @@ def main():
         print(f"[*] Loading custom checkpoint: {args.weights}")
         model.load_state_dict(torch.load(args.weights, map_location=device))
 
-    print(f"[*] Analyzing video: {args.video_path}")
+    print(f"[*] Analyzing video: {target_video}")
     results = classify_video(
-        video_path=args.video_path,
+        video_path=target_video,
         model=model,
         device=device,
         max_frames=args.max_frames,
@@ -298,7 +315,7 @@ def main():
     print(f"Median Frame Score:   {results.get('median_frame_probability', 0.0) * 100:.2f}%")
     print(f"Top-K Peak Fake Score:{results.get('top_k_worst_frame_probability', 0.0) * 100:.2f}%")
     print(f"Frames Sampled:       {results['frames_analyzed']}")
-    print("=" * 52)
+    print("=" * 50)
 
 
 if __name__ == "__main__":
