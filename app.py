@@ -48,14 +48,30 @@ def format_checks(checks_dict: Dict[str, Any]) -> list[Dict[str, Any]]:
     formatted = []
     for k, v in checks_dict.items():
         obs = v.get("observed")
+        thresh = str(v.get("threshold", ""))
+
         if isinstance(obs, (int, float)):
-            obs = round(float(obs), 2)
+            if "%" in thresh:
+                # If observed is already in 0-100 format vs 0-1 format
+                val = obs if obs > 1.0 or "coverage" in k or "consistency" in k or "quality" in k else obs * 100.0
+                obs_str = f"{val:.2f}%"
+                if val == 0:
+                    obs_str = "0.0%"
+                elif val < 0.01:
+                    obs_str = "< 0.01%"
+            elif abs(obs) < 0.01 and obs != 0:
+                obs_str = f"{obs:.4f}"
+            else:
+                obs_str = f"{obs:.2f}"
+        else:
+            obs_str = str(obs)
+
         formatted.append({
             "key": k,
             "name": v.get("name", k.replace("_", " ").title()),
             "passed": bool(v.get("passed", False)),
-            "observed": obs,
-            "expected": v.get("threshold", ""),
+            "observed": obs_str,
+            "expected": thresh,
         })
     return formatted
 
@@ -120,7 +136,6 @@ def run_pipeline(video_path: Path) -> Dict[str, Any]:
             if "Verdict:" in line:
                 deep_verdict = line.split(":")[-1].strip()
 
-    # Read summary stats from rgb_signals.csv
     import pandas as pd
     rgb_df = pd.read_csv(ROOT_DIR / "rgb_signals.csv")
     valid_subregs = float(rgb_df["valid_subregions_count"].mean()) if "valid_subregions_count" in rgb_df.columns else 14.7
