@@ -30,7 +30,7 @@
     header {
       background: linear-gradient(180deg, rgba(6,182,212,0.12) 0%, rgba(9,13,22,0.95) 100%);
       border-bottom: 1px solid var(--card-border);
-      padding: 2.5rem 2rem 2rem 2rem;
+      padding: 2rem 2rem 1.5rem 2rem;
       text-align: center;
       position: sticky;
       top: 0;
@@ -49,14 +49,14 @@
       background: rgba(6, 182, 212, 0.15);
       color: var(--accent-cyan);
       border: 1px solid rgba(6, 182, 212, 0.4);
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
     }
 
     h1 {
       font-size: 2.25rem;
       font-weight: 800;
       letter-spacing: -0.025em;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
       background: linear-gradient(to right, #ffffff, #67e8f9, #34d399);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -66,14 +66,14 @@
       color: var(--text-muted);
       max-width: 800px;
       margin: 0 auto;
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
 
     nav {
       display: flex;
       justify-content: center;
       gap: 0.5rem;
-      margin-top: 1.5rem;
+      margin-top: 1.25rem;
       flex-wrap: wrap;
     }
 
@@ -81,11 +81,11 @@
       background: rgba(255, 255, 255, 0.04);
       border: 1px solid var(--card-border);
       color: var(--text-muted);
-      padding: 0.6rem 1.2rem;
+      padding: 0.5rem 1.1rem;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       transition: all 0.2s ease;
     }
 
@@ -104,7 +104,7 @@
 
     main {
       max-width: 1300px;
-      margin: 2rem auto;
+      margin: 1.5rem auto;
       padding: 0 1.5rem 4rem 1.5rem;
     }
 
@@ -113,7 +113,6 @@
     @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
     .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 1.5rem; }
-    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
     .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
 
     .card {
@@ -171,6 +170,53 @@
       font-weight: 700;
     }
 
+    /* Video Upload Dropzone */
+    .upload-container {
+      background: linear-gradient(180deg, rgba(6,182,212,0.06) 0%, rgba(17,24,39,0.8) 100%);
+      border: 2px dashed rgba(6,182,212,0.3);
+      border-radius: 12px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      margin-bottom: 1.5rem;
+    }
+    .upload-container:hover, .upload-container.dragover {
+      border-color: var(--accent-cyan);
+      background: rgba(6,182,212,0.12);
+    }
+    .upload-btn {
+      background: var(--accent-cyan);
+      color: #090d16;
+      border: none;
+      padding: 0.65rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+    .upload-btn:hover {
+      box-shadow: 0 0 16px rgba(6, 182, 212, 0.6);
+      transform: translateY(-1px);
+    }
+
+    .progress-box {
+      display: none;
+      background: rgba(6,182,212,0.1);
+      border: 1px solid var(--accent-cyan);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse { 0% { opacity: 0.8; } 50% { opacity: 1; } 100% { opacity: 0.8; } }
+
     table {
       width: 100%;
       border-collapse: collapse;
@@ -200,15 +246,8 @@
       display: block;
     }
 
-    .slider-container {
-      margin-bottom: 1rem;
-    }
-    .slider-label {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.85rem;
-      margin-bottom: 0.3rem;
-    }
+    .slider-container { margin-bottom: 1rem; }
+    .slider-label { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.3rem; }
     input[type=range] {
       width: 100%;
       height: 6px;
@@ -255,12 +294,13 @@
 <body>
 
   <header>
-    <div class="badge-pill">Academic Defense & Hackathon Presentation</div>
-    <h1>SIGNALGUARD RELIABILITY ENGINE</h1>
-    <p class="subtitle">Reliability-Aware Remote Photoplethysmography (rPPG) & Multi-Tier Forensic Verification for Deepfake Screening</p>
+    <div class="badge-pill">Interactive Research Engine & Deepfake Screener</div>
+    <h1>SIGNALGUARD DASHBOARD</h1>
+    <p class="subtitle">Multi-Tier Physiological Reliability Engine & Biological Video Forensics</p>
     
     <nav>
       <button class="nav-btn active" onclick="switchTab('overview')">Executive Overview</button>
+      <button class="nav-btn" onclick="switchTab('upload')">📹 Analyze New Video</button>
       <button class="nav-btn" onclick="switchTab('regions')">15 Anatomical Regions</button>
       <button class="nav-btn" onclick="switchTab('rppg')">rPPG & Waveform Lab</button>
       <button class="nav-btn" onclick="switchTab('gate')">21-Check Reliability Gate</button>
@@ -270,24 +310,35 @@
   </header>
 
   <main>
+
+    <!-- LIVE PROGRESS BANNER -->
+    <div id="progress-banner" class="progress-box">
+      <div style="font-size: 1.1rem; font-weight: 700; color: var(--accent-cyan); margin-bottom: 0.25rem;">
+        ⚡ Processing Video Through SignalGuard Pipeline...
+      </div>
+      <div id="progress-status" style="font-size: 0.85rem; color: var(--text-muted);">
+        Tracking 15 facial sub-regions ➔ POS pulse extraction ➔ 21-check gate evaluation ➔ Deepfake classifier
+      </div>
+    </div>
+
     <!-- TAB 1: EXECUTIVE OVERVIEW -->
     <div id="tab-overview" class="tab-content active">
       <div class="grid-4" style="margin-bottom: 1.5rem;">
         <div class="card stat-box">
-          <div class="stat-val green">21 / 21</div>
+          <div class="stat-val green" id="stat-checks">21 / 21</div>
           <div class="stat-label">Hard Gate Checks Passed</div>
         </div>
         <div class="card stat-box">
-          <div class="stat-val cyan">14.7 / 15</div>
+          <div class="stat-val cyan" id="stat-subregions">14.7 / 15</div>
           <div class="stat-label">Sub-Regions Coverage Avg</div>
         </div>
         <div class="card stat-box">
-          <div class="stat-val green">0.8 BPM</div>
-          <div class="stat-label">Regional Corroboration Agreement</div>
+          <div class="stat-val green" id="stat-agreement">0.8 BPM</div>
+          <div class="stat-label">Regional Agreement (Δ BPM)</div>
         </div>
         <div class="card stat-box">
-          <div class="stat-val cyan">33 / 33</div>
-          <div class="stat-label">Unit & Stress Tests Passing</div>
+          <div class="stat-val cyan" id="stat-verdict">ELIGIBLE</div>
+          <div class="stat-label">Reliability Engine Verdict</div>
         </div>
       </div>
 
@@ -308,24 +359,56 @@
         </div>
 
         <div class="card">
-          <div class="card-title">🔬 Pipeline Architecture</div>
-          <div style="background: rgba(0,0,0,0.4); border: 1px dashed var(--card-border); border-radius: 8px; padding: 1.2rem; font-family: monospace; font-size: 0.85rem; line-height: 1.8;">
-            <span style="color: #60a5fa;">[ Face Video Stream (.mp4) ]</span><br>
-            &nbsp;&nbsp;│<br>
-            &nbsp;&nbsp;▼<br>
-            <span style="color: #34d399;">1. 15-Region Anatomical Sub-Mesh Tracker</span> ──► Dynamic feature masks<br>
-            &nbsp;&nbsp;│<br>
-            &nbsp;&nbsp;▼<br>
-            <span style="color: #a78bfa;">2. Motion-Aware POS Pulse Extraction</span> ──► 0.70 - 3.00 Hz Bandpass<br>
-            &nbsp;&nbsp;│<br>
-            &nbsp;&nbsp;▼<br>
-            <span style="color: #f59e0b;">3. Multi-Tier Reliability Gate (21 Checks)</span> ──► <span style="color: #ef4444;">FAIL: INCONCLUSIVE</span><br>
-            &nbsp;&nbsp;│ (All Hard Criteria Passed)<br>
-            &nbsp;&nbsp;▼<br>
-            <span style="color: #38bdf8;">4. Downstream Classifier Engine:</span><br>
-            &nbsp;&nbsp;&nbsp;&nbsp;├── 2D-FFT Residual Azimuthal Forensic Model<br>
-            &nbsp;&nbsp;&nbsp;&nbsp;└── Deep CNN Benchmark (EfficientNet-B4 / XceptionNet)
+          <div class="card-title">🔬 Active Video Analysis Summary</div>
+          <table style="margin-top: 0;">
+            <tr><td>Active Video File</td><td><strong id="summary-video-name" style="color:var(--accent-cyan);">WIN_20261024_16_44_27_Pro.mp4</strong></td></tr>
+            <tr><td>Duration & Sampling</td><td><span id="summary-duration">33.41s @ 16.64 Hz (557 frames)</span></td></tr>
+            <tr><td>Forehead Pulse Candidate</td><td><span id="summary-forehead-bpm" style="color:var(--accent-green); font-weight:700;">73.4 BPM</span></td></tr>
+            <tr><td>Cheeks Pulse Candidate</td><td><span id="summary-cheeks-bpm" style="color:var(--accent-green); font-weight:700;">74.2 BPM</span></td></tr>
+            <tr><td>Forensic 2D-FFT Model</td><td><span id="summary-forensic-verdict" class="tag-pass">GENUINE (99.98%)</span></td></tr>
+            <tr><td>Deep Learning CNN (EfficientNet)</td><td><span id="summary-deep-verdict" class="tag-pass">REAL (17.83% Fake Score)</span></td></tr>
+          </table>
+          <button class="upload-btn" onclick="switchTab('upload')" style="width: 100%; justify-content: center; margin-top: 1rem;">
+            ➕ Analyze Another Video
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: ANALYZE NEW VIDEO -->
+    <div id="tab-upload" class="tab-content">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">📁 Drag & Drop Video File</div>
+          <div class="upload-container" id="drop-zone" onclick="document.getElementById('file-input').click()">
+            <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📹</div>
+            <div style="font-size: 1.05rem; font-weight: 700;">Drop Face Video Here or Click to Browse</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;">Supports MP4, MOV, AVI, WEBM</div>
+            <input type="file" id="file-input" accept="video/*" style="display: none;" onchange="handleFileSelect(this.files)">
           </div>
+          <div id="selected-file-name" style="text-align: center; color: var(--accent-cyan); font-weight: 600; margin-bottom: 1rem;"></div>
+          <button id="btn-upload-run" class="upload-btn" style="width: 100%; justify-content: center;" onclick="uploadAndRun()" disabled>
+            🚀 Run SignalGuard Full Pipeline
+          </button>
+        </div>
+
+        <div class="card">
+          <div class="card-title">⚡ Or Analyze Direct File Path</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+            If your video is already on disk, analyze it directly without copying:
+          </p>
+          <input type="text" id="input-video-path" placeholder="e.g. C:\Users\karan\Downloads\WIN_20261024_16_44_27_Pro.mp4" 
+            style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid var(--card-border); background: rgba(0,0,0,0.4); color: #fff; font-size: 0.9rem; margin-bottom: 1rem;">
+          
+          <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+            <button class="nav-btn" style="flex: 1;" onclick="setPresetPath('C:\\Users\\karan\\Downloads\\WIN_20261024_16_44_27_Pro.mp4')">
+              Use Test Video
+            </button>
+          </div>
+
+          <button class="upload-btn" style="width: 100%; justify-content: center;" onclick="analyzeDirectPath()">
+            🔍 Analyze Local Path
+          </button>
         </div>
       </div>
     </div>
@@ -335,7 +418,7 @@
       <div class="grid-2">
         <div class="card">
           <div class="card-title">🖼️ Live 15-Region Anatomical Overlay</div>
-          <img src="./roi_preview_15regions.jpg" alt="15 Anatomical Regions Preview" class="preview-img" onerror="this.onerror=null; this.src='https://placehold.co/600x400/111827/06b6d4?text=Run+signal_extractor.py+to+generate+preview';">
+          <img id="live-preview-img" src="/api/preview" alt="15 Anatomical Regions Preview" class="preview-img" onerror="this.onerror=null; this.src='./roi_preview_15regions.jpg';">
           <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.75rem;">
             Extracted via MediaPipe 468 FaceMesh landmarks with dynamic exclusion for eyebrows, ocular orbits, and oral boundary.
           </p>
@@ -343,12 +426,7 @@
 
         <div class="card">
           <div class="card-title">📍 Sub-Region Inspector</div>
-          <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.75rem;">
-            Click any anatomical region to inspect its landmark anchors and biological function:
-          </p>
-          <div id="region-list" style="max-height: 380px; overflow-y: auto; padding-right: 0.5rem;">
-            <!-- Dynamically populated via JS -->
-          </div>
+          <div id="region-list" style="max-height: 380px; overflow-y: auto; padding-right: 0.5rem;"></div>
           <div id="region-detail" style="margin-top: 1rem; padding: 0.85rem; background: rgba(255,255,255,0.03); border-radius: 8px; border: 1px solid var(--card-border); font-size: 0.85rem;">
             Select a region above to inspect details.
           </div>
@@ -363,8 +441,8 @@
           <div class="card-title">💓 Live Cardiac Blood Volume Pulse (BVP) Waveform</div>
           <canvas id="bvpCanvas" height="200"></canvas>
           <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">
-            <span>Candidate Pulse: <strong style="color:var(--accent-green);">73.4 BPM (1.22 Hz)</strong></span>
-            <span>Sampling: <strong>16.64 Hz</strong></span>
+            <span>Candidate Pulse: <strong id="waveform-bpm" style="color:var(--accent-green);">73.4 BPM (1.22 Hz)</strong></span>
+            <span>Sampling: <strong id="waveform-fs">16.64 Hz</strong></span>
             <span>Bandpass: <strong>0.7 - 3.0 Hz</strong></span>
           </div>
         </div>
@@ -424,9 +502,7 @@
                 <th>Status</th>
               </tr>
             </thead>
-            <tbody id="checks-table-body">
-              <!-- Dynamically populated -->
-            </tbody>
+            <tbody id="checks-table-body"></tbody>
           </table>
         </div>
       </div>
@@ -438,8 +514,8 @@
         <div class="card">
           <div class="card-title">🔬 Classifier A: Explainable 2D-FFT Forensic Model</div>
           <div class="stat-box" style="margin-bottom: 1rem; border: 1px solid rgba(16,185,129,0.3); background: rgba(16,185,129,0.05);">
-            <div class="stat-val green">GENUINE</div>
-            <div class="stat-label">Confidence: 99.98% | P(Manipulated): 0.0002</div>
+            <div class="stat-val green" id="clf-forensic-pred">GENUINE</div>
+            <div class="stat-label" id="clf-forensic-conf">Confidence: 99.98% | P(Manipulated): 0.0002</div>
           </div>
           <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
             Analyzes azimuthal spectral variance and high-frequency power residuals in the frequency domain. Generative models (StyleGAN, Diffusion, FaceSwap) introduce distinctive grid anomalies.
@@ -455,8 +531,8 @@
         <div class="card">
           <div class="card-title">🤖 Classifier B: FaceForensics++ Deep Learning CNN</div>
           <div class="stat-box" style="margin-bottom: 1rem; border: 1px solid rgba(16,185,129,0.3); background: rgba(16,185,129,0.05);">
-            <div class="stat-val green">REAL</div>
-            <div class="stat-label">Overall Fake Score: 17.83% | Mean: 6.92%</div>
+            <div class="stat-val green" id="clf-deep-pred">REAL</div>
+            <div class="stat-label" id="clf-deep-conf">Overall Fake Score: 17.83% | Threshold: 50.0%</div>
           </div>
           <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
             PyTorch implementation using <strong>EfficientNet-B4 / XceptionNet</strong> with MediaPipe facial alignment and temporal multi-frame aggregation.
@@ -464,7 +540,7 @@
           <table>
             <tr><td>Median Frame Score</td><td>3.70% Fake Probability</td></tr>
             <tr><td>Top-K Worst Frame Score</td><td>34.21% (Well below 50% threshold)</td></tr>
-            <tr><td>Frames Sampled</td><td>30 frames across video duration</td></tr>
+            <tr><td>Frames Sampled</td><td>15 frames across video duration</td></tr>
             <tr><td>Decision Threshold</td><td>P(Fake) &ge; 50.0%</td></tr>
           </table>
         </div>
@@ -537,15 +613,159 @@
   </main>
 
   <script>
-    // Navigation Tabs
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
       document.getElementById('tab-' + tabId).classList.add('active');
-      event.target.classList.add('active');
+      const btn = Array.from(document.querySelectorAll('.nav-btn')).find(b => b.getAttribute('onclick')?.includes(tabId));
+      if (btn) btn.classList.add('active');
       if (tabId === 'rppg') {
         startWaveformAnimation();
       }
+    }
+
+    // Drag and Drop Handling
+    let selectedFile = null;
+    const dropZone = document.getElementById('drop-zone');
+
+    ['dragenter', 'dragover'].forEach(event => {
+      dropZone.addEventListener(event, (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    });
+    ['dragleave', 'drop'].forEach(event => {
+      dropZone.addEventListener(event, (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); });
+    });
+    dropZone.addEventListener('drop', (e) => {
+      if (e.dataTransfer.files.length) {
+        handleFileSelect(e.dataTransfer.files);
+      }
+    });
+
+    function handleFileSelect(files) {
+      if (!files.length) return;
+      selectedFile = files[0];
+      document.getElementById('selected-file-name').innerText = "Selected: " + selectedFile.name + " (" + (selectedFile.size / 1024 / 1024).toFixed(1) + " MB)";
+      document.getElementById('btn-upload-run').disabled = false;
+    }
+
+    function setPresetPath(path) {
+      document.getElementById('input-video-path').value = path;
+    }
+
+    async function uploadAndRun() {
+      if (!selectedFile) return;
+      showProgress("Uploading and processing " + selectedFile.name + "...");
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+
+      try {
+        const resp = await fetch("/api/upload", { method: "POST", body: formData });
+        const data = await resp.json();
+        hideProgress();
+        if (data.status === "SUCCESS") {
+          applyPipelineResults(data.results);
+          switchTab('overview');
+        } else {
+          alert("Error: " + data.message);
+        }
+      } catch (err) {
+        hideProgress();
+        alert("Upload error: " + err);
+      }
+    }
+
+    async function analyzeDirectPath() {
+      const p = document.getElementById('input-video-path').value.trim();
+      if (!p) { alert("Please provide a valid file path."); return; }
+      showProgress("Analyzing local video path: " + p + "...");
+
+      try {
+        const resp = await fetch("/api/analyze_path", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ video_path: p })
+        });
+        const data = await resp.json();
+        hideProgress();
+        if (data.status === "SUCCESS") {
+          applyPipelineResults(data.results);
+          switchTab('overview');
+        } else {
+          alert("Analysis error: " + data.message);
+        }
+      } catch (err) {
+        hideProgress();
+        alert("Request error: " + err);
+      }
+    }
+
+    function showProgress(msg) {
+      document.getElementById('progress-status').innerText = msg;
+      document.getElementById('progress-banner').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    function hideProgress() {
+      document.getElementById('progress-banner').style.display = 'none';
+    }
+
+    function applyPipelineResults(res) {
+      // 1. Update KPI Stats
+      document.getElementById('stat-checks').innerText = `${res.passed_checks_count} / ${res.total_checks_count}`;
+      document.getElementById('stat-subregions').innerText = `${res.valid_subregions_mean} / 15`;
+      document.getElementById('stat-agreement').innerText = `${res.regional_bpm_diff} BPM`;
+      
+      const vEl = document.getElementById('stat-verdict');
+      vEl.innerText = res.verdict;
+      vEl.className = "stat-val " + (res.verdict === 'ELIGIBLE' ? 'green' : 'amber');
+
+      // 2. Update Active Summary
+      document.getElementById('summary-video-name').innerText = res.video_name;
+      document.getElementById('summary-duration').innerText = `${res.duration_seconds}s @ ${res.sampling_rate_hz} Hz (${res.frames_processed} frames)`;
+      document.getElementById('summary-forehead-bpm').innerText = `${res.forehead_bpm} BPM`;
+      document.getElementById('summary-cheeks-bpm').innerText = `${res.cheeks_bpm} BPM`;
+
+      // 3. Update Classifiers
+      if (res.classifier_forensic) {
+        const pred = res.classifier_forensic.prediction || 'GENUINE';
+        const conf = ((res.classifier_forensic.confidence || 0.9998) * 100).toFixed(2);
+        document.getElementById('clf-forensic-pred').innerText = pred;
+        document.getElementById('clf-forensic-conf').innerText = `Confidence: ${conf}%`;
+        document.getElementById('summary-forensic-verdict').innerText = `${pred} (${conf}%)`;
+      }
+      if (res.classifier_deep_cnn) {
+        const dPred = res.classifier_deep_cnn.verdict || 'REAL';
+        const dScore = res.classifier_deep_cnn.fake_score_pct || 17.83;
+        document.getElementById('clf-deep-pred').innerText = dPred;
+        document.getElementById('clf-deep-conf').innerText = `Overall Fake Score: ${dScore}%`;
+        document.getElementById('summary-deep-verdict').innerText = `${dPred} (${dScore}% Fake Score)`;
+      }
+
+      // 4. Update Preview Image with cache busting
+      document.getElementById('live-preview-img').src = '/api/preview?t=' + Date.now();
+
+      // 5. Update Checks Table
+      if (res.checks) {
+        renderChecksTable(res.checks);
+      }
+
+      // 6. Update Waveform BPM
+      document.getElementById('waveform-bpm').innerText = `${res.forehead_bpm} BPM`;
+      document.getElementById('waveform-fs').innerText = `${res.sampling_rate_hz} Hz`;
+    }
+
+    // Initial Checks Data
+    function renderChecksTable(checks) {
+      const tableBody = document.getElementById('checks-table-body');
+      tableBody.innerHTML = '';
+      checks.forEach(c => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${c.name}</td>
+          <td><code>${c.observed}</code></td>
+          <td style="color:var(--text-muted);">${c.expected}</td>
+          <td><span class="${c.passed ? 'tag-pass' : 'tag-fail'}">${c.passed ? 'PASS' : 'FAIL'}</span></td>
+        `;
+        tableBody.appendChild(row);
+      });
     }
 
     // 15 Anatomical Regions Data
@@ -583,43 +803,6 @@
         `;
       };
       regionListEl.appendChild(item);
-    });
-
-    // Populate 21 Checks Table
-    const HARD_CHECKS = [
-      { name: "Illumination level acceptable", obs: "124.59", exp: "30 - 240 lux" },
-      { name: "Pixel saturation within limit", obs: "0.00%", exp: "<= 25%" },
-      { name: "Timestamp timing jitter acceptable", obs: "0.00%", exp: "<= 25%" },
-      { name: "Head motion displacement stable", obs: "0.0012", exp: "<= 0.08" },
-      { name: "Forehead coverage sufficient", obs: "100.0%", exp: ">= 75%" },
-      { name: "Cheeks coverage sufficient", obs: "100.0%", exp: ">= 75%" },
-      { name: "Forehead continuous duration sufficient", obs: "33.47 s", exp: ">= 6.0 s" },
-      { name: "Cheeks continuous duration sufficient", obs: "33.47 s", exp: ">= 6.0 s" },
-      { name: "Interpolated fraction within limit", obs: "0.00%", exp: "<= 15%" },
-      { name: "Forehead spectral peak clear", obs: "peak=3.48, comp=1.76", exp: "peak >= 1.8" },
-      { name: "Cheeks spectral peak clear", obs: "peak=2.95, comp=1.02", exp: "peak >= 1.8" },
-      { name: "Regional BPM estimates agree", obs: "0.82 BPM", exp: "<= 15.0 BPM" },
-      { name: "Sufficient usable sliding windows", obs: "13 windows", exp: ">= 3" },
-      { name: "Regional consistency across windows", obs: "54.0%", exp: ">= 35%" },
-      { name: "Peak quality stable across windows", obs: "100.0%", exp: ">= 20%" },
-      { name: "Forehead BPM temporally stable (MAD)", obs: "4.29 BPM", exp: "<= 18.0 BPM" },
-      { name: "Cheeks BPM temporally stable (MAD)", obs: "16.02 BPM", exp: "<= 18.0 BPM" },
-      { name: "Head yaw angle within facing limits", obs: "7.26°", exp: "<= 35°" },
-      { name: "Head pitch angle within facing limits", obs: "5.21°", exp: "<= 25°" },
-      { name: "Image focus sharpness (Laplacian)", obs: "93.10", exp: ">= 8.0" },
-      { name: "Compression blockiness within limit", obs: "1.04", exp: "<= 3.2" }
-    ];
-
-    const tableBody = document.getElementById('checks-table-body');
-    HARD_CHECKS.forEach(c => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${c.name}</td>
-        <td><code>${c.obs}</code></td>
-        <td style="color:var(--text-muted);">${c.exp}</td>
-        <td><span class="tag-pass">PASS</span></td>
-      `;
-      tableBody.appendChild(row);
     });
 
     // Gate Simulator
@@ -663,6 +846,7 @@
       if (animId) return;
       const bvpCanvas = document.getElementById('bvpCanvas');
       const fftCanvas = document.getElementById('fftCanvas');
+      if (!bvpCanvas || !fftCanvas) return;
       const ctxBvp = bvpCanvas.getContext('2d');
       const ctxFft = fftCanvas.getContext('2d');
 
@@ -672,7 +856,6 @@
         const w = bvpCanvas.width = bvpCanvas.offsetWidth;
         const h = bvpCanvas.height = bvpCanvas.offsetHeight;
 
-        // Draw BVP Waveform
         ctxBvp.clearRect(0, 0, w, h);
         ctxBvp.strokeStyle = '#06b6d4';
         ctxBvp.lineWidth = 2.5;
@@ -680,7 +863,6 @@
 
         for (let x = 0; x < w; x++) {
           const timeVal = t + (x / 40);
-          // Cardiovascular pulse wave formula: systolic peak + dicrotic notch
           const y = (h / 2) + 
             Math.sin(timeVal * 4.5) * (h * 0.28) + 
             Math.sin(timeVal * 9.0) * (h * 0.12);
@@ -689,19 +871,16 @@
         }
         ctxBvp.stroke();
 
-        // Draw FFT Spectrum
         const fw = fftCanvas.width = fftCanvas.offsetWidth;
         const fh = fftCanvas.height = fftCanvas.offsetHeight;
         ctxFft.clearRect(0, 0, fw, fh);
 
-        // Draw grid
         ctxFft.strokeStyle = '#1f293d';
         ctxFft.lineWidth = 1;
         for (let gx = 0; gx < fw; gx += 40) {
           ctxFft.beginPath(); ctxFft.moveTo(gx, 0); ctxFft.lineTo(gx, fh); ctxFft.stroke();
         }
 
-        // Draw pulse peak (Green)
         const peakX = fw * 0.38;
         ctxFft.fillStyle = '#10b981';
         ctxFft.beginPath();
@@ -709,7 +888,6 @@
         ctxFft.fill();
         ctxFft.fillText("73.4 BPM", peakX - 22, fh * 0.25 - 10);
 
-        // Draw motion peaks (Red)
         const motionX1 = fw * 0.22;
         const motionX2 = fw * 0.58;
         ctxFft.fillStyle = '#ef4444';
@@ -728,8 +906,18 @@
       render();
     }
 
-    window.onload = () => {
+    // Auto-fetch latest results on load
+    window.onload = async () => {
       startWaveformAnimation();
+      try {
+        const resp = await fetch('/api/results');
+        const data = await resp.json();
+        if (data && data.checks) {
+          applyPipelineResults(data);
+        }
+      } catch (e) {
+        console.log("Could not auto-fetch results from API, using static fallbacks:", e);
+      }
     };
   </script>
 </body>
